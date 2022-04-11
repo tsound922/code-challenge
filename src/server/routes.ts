@@ -19,19 +19,25 @@ router.get('/api/cheeses', (req, res, next) => {
     res.json(cheeses);
 });
 
+router.get('/api/history', (req, res, next) => {
+    res.json(historyPurchases);
+})
+
 router.post('/api/cheeses', jsonParser, (req, res) => {
-    const obj = {
-        date: req.body.date,
-        total: req.body.total,
-        cartItem: req.body.cartItem
-    }
-    //Store the post data into JSON file
-    console.log('Data Successfully Stored!');
-    console.log(typeof obj.cartItem, obj.cartItem);
-    let data = JSON.stringify(obj, null, "\t");
     
     try {
+        //If JSON data length is 0 or null, store as first data
         if(historyPurchases.length == 0 || historyPurchases == null){
+            const obj = {
+                id:1,
+                date: req.body.date,
+                total: req.body.total,
+                cartItem: req.body.cartItem
+            }
+            //Store the post data into JSON file
+            console.log('Data Successfully Stored!');
+            console.log(typeof obj.cartItem, obj.cartItem);
+            let data = JSON.stringify(obj, null, "\t");
             fs.writeFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json'), `[\n\t${data}\n]`);
             res.send({
                 Status: `Status: ${res.statusCode}`,
@@ -39,6 +45,14 @@ router.post('/api/cheeses', jsonParser, (req, res) => {
                 data: JSON.stringify(obj)
             });
         }else{
+            const obj = {
+                id:historyPurchases.length + 1,
+                date: req.body.date,
+                total: req.body.total,
+                cartItem: req.body.cartItem
+            }
+            //Append to the JSON file if JSON data lenth is 0 or null
+            let data = JSON.stringify(obj, null, "\t");
             const fsData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json')));
             fsData.splice(0,0,JSON.parse(data))
             console.log("FS Data", fsData.length);
@@ -52,6 +66,12 @@ router.post('/api/cheeses', jsonParser, (req, res) => {
         
         } catch (error) {
             console.log(error);
+            const obj = {
+                id:historyPurchases.length + 1,
+                date: req.body.date,
+                total: req.body.total,
+                cartItem: req.body.cartItem
+            }
             res.send({
                 Status: `Status: ${res.statusCode}`,
                 Message: 'Data store failed!',
