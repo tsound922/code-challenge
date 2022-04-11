@@ -39,7 +39,10 @@ router.post('/api/cheeses', jsonParser, (req, res) => {
                 data: JSON.stringify(obj)
             });
         }else{
-            fs.appendFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json'), `${data}` );
+            const fsData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json')));
+            fsData.splice(0,0,JSON.parse(data))
+            console.log("FS Data", fsData.length);
+            fs.writeFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json'), `${JSON.stringify(fsData, null, "\t")}` );
             res.send({
             Status: `Status: ${res.statusCode}`,
             Message: 'Data Successfully Stored!',
@@ -48,7 +51,7 @@ router.post('/api/cheeses', jsonParser, (req, res) => {
         }
         
         } catch (error) {
-            console.log(error.Message);
+            console.log(error);
             res.send({
                 Status: `Status: ${res.statusCode}`,
                 Message: 'Data store failed!',
