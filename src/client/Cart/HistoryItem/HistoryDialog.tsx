@@ -73,7 +73,7 @@ const HistoryDialog: React.FC<Props> = props => {
                 </Button>
                 <Dialog
                     fullWidth = {true}
-                    // fullScreen = {false}
+                    fullScreen = {false}
                     maxWidth = "xl"
                     open={open}
                     onClose={handleClose}
