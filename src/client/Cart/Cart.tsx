@@ -27,7 +27,8 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
   const handleSubmit = async (cartItems:any): Promise<CartItemType[] | any> =>{
     const data = {
       date: dateTime,
-      cartItem: cartItems
+      cartItem: cartItems,
+      total: calculateTotal(cartItems).toFixed(2)
     }
     let message = "";
     const requestOptions = {

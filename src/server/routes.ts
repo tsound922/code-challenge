@@ -1,7 +1,9 @@
 import * as express from 'express';
-import {writeFile} from 'fs';
+const fs = require('fs');
+var path = require("path");
 var bodyParser = require('body-parser');
-const cheeses = require('./data/cheeses.json');
+const cheeses = require('./data/cheeses.json') ;
+const historyPurchases = require('./data/historyPurchases.json')|| null;
 const router = express.Router();
 
 
@@ -18,25 +20,41 @@ router.get('/api/cheeses', (req, res, next) => {
 });
 
 router.post('/api/cheeses', jsonParser, (req, res) => {
-    console.log("Got request", req.body);
     const obj = {
         date: req.body.date,
+        total: req.body.total,
         cartItem: req.body.cartItem
     }
     //Store the post data into JSON file
-    // writeFile.writeFile('./data/lastPurchases.json', JSON.stringify(obj), (err)=> {
-    //     if(err){
-    //         throw err;
-    //     }else{
-            console.log('Data Successfully Stored!');
+    console.log('Data Successfully Stored!');
+    console.log(typeof obj.cartItem, obj.cartItem);
+    let data = JSON.stringify(obj, null, "\t");
+    
+    try {
+        if(historyPurchases.length == 0 || historyPurchases == null){
+            fs.writeFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json'), `[\n\t${data}\n]`);
             res.send({
                 Status: `Status: ${res.statusCode}`,
                 Message: 'Data Successfully Stored!',
-                data: obj
+                data: JSON.stringify(obj)
             });
-    //     }
-    // })
-    // writeFile('./data/lastPurchases.json', JSON.stringify(obj), (err) =>)
+        }else{
+            fs.appendFileSync(path.resolve(__dirname, '../src/server/data/historyPurchases.json'), `${data}` );
+            res.send({
+            Status: `Status: ${res.statusCode}`,
+            Message: 'Data Successfully Stored!',
+            data: JSON.stringify(obj)
+            });
+        }
+        
+        } catch (error) {
+            console.log(error.Message);
+            res.send({
+                Status: `Status: ${res.statusCode}`,
+                Message: 'Data store failed!',
+                data: JSON.stringify(obj)
+            });
+        }
 })
 
 export default router;
