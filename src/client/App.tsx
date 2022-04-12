@@ -90,6 +90,7 @@ const App = () => {
     });
   };
 
+  //Clear all the thing in cart
   const handlePaymentCart = () => {
     setCartItems([] as any);
   }

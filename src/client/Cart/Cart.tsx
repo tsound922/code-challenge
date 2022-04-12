@@ -74,6 +74,17 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart, handlePay
       endIcon = {<ShoppingCartTwoTone />}
       onClick={()=>{handleSubmit(cartItems)}}
       >Cart</Button>
+      <br />
+      <br />
+      {cartItems.length === 0?<></>:
+      <Button size='small' 
+      disableElevation 
+      variant='contained' 
+      
+      onClick={()=>{handlePaymentCart()}}
+      >Clear Your Cart</Button>
+      }
+      
     </Wrapper>
   );
 };
