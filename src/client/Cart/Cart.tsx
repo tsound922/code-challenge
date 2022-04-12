@@ -39,7 +39,7 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart, handlePay
     };
     if(data.cartItem.length ==0){
       
-      return alert("Cart is empty");
+      return alert("Cart is empty! Unable process your payment");
     }else{
       await (fetch(`api/cheeses`, requestOptions)
       .then(res => res.json())
@@ -71,17 +71,18 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart, handlePay
       <h2>Total: ${calculateTotal(cartItems).toFixed(2)}</h2>
       <Button size='small' 
       disableElevation 
+      className='process-payment'
       variant='contained' 
       endIcon = {<ShoppingCartTwoTone />}
       onClick={()=>{handleSubmit(cartItems)}}
-      >Cart</Button>
+      >Purchase</Button>
       <br />
       <br />
       {cartItems.length === 0?<></>:
       <Button size='small' 
       disableElevation 
       variant='contained' 
-      
+      className='remove-cart'
       onClick={()=>{handlePaymentCart()}}
       >Clear Your Cart</Button>
       }

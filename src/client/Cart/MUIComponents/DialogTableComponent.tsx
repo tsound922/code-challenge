@@ -19,6 +19,7 @@ console.log("Props gonna use", props)
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>Item ID</TableCell>
             <TableCell>Product Category</TableCell>
             <TableCell >Product Description</TableCell>
             <TableCell >Product Price</TableCell>
@@ -28,6 +29,9 @@ console.log("Props gonna use", props)
         <TableBody>
             <TableRow key={props.item.id}>
                 <TableCell component="th" scope="row">
+                    {props.item.id}
+                </TableCell>
+                <TableCell>
                     {props.item.category}
                 </TableCell>
                 <TableCell >{props.item.description}</TableCell>

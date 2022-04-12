@@ -134,7 +134,7 @@ const App = () => {
               Welcome to Patient Zero's Cheeseria
             </HeaderTypography>
 
-            <StyledButton onClick={() => setCartOpen(true)}>
+            <StyledButton onClick={() => setCartOpen(true)} className='cart-dialog-right'>
               <Badge
                 badgeContent={getTotalItems(cartItems)}
                 color='error'
@@ -142,7 +142,7 @@ const App = () => {
                 <AddShoppingCartIcon />
               </Badge>
 
-              <Typography variant="subtitle2">
+              <Typography variant="subtitle2" >
                 Cart
               </Typography>
             </StyledButton>
