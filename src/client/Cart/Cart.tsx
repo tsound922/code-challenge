@@ -11,8 +11,9 @@ type Props = {
   cartItems: CartItemType[];
   addToCart: (clickedItem: CartItemType) => void;
   removeFromCart: (id: number) => void;
+  handlePaymentCart: () => void;
 };  
-const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
+const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart, handlePaymentCart }) => {
   //Monitor the cart change
   // const [cart, setCart] = useState<CartItemType[] | null>();
   // useEffect(() => {
@@ -27,8 +28,7 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
   const handleSubmit = async (cartItems:any): Promise<CartItemType[] | any> =>{
     const data = {
       date: dateTime,
-      cartItem: cartItems,
-      total: calculateTotal(cartItems).toFixed(2)
+      cartItem: cartItems
     }
     let message = "";
     const requestOptions = {
@@ -46,12 +46,11 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
         console.log("Response message", res);
         message = res.Message;
       }));
+      handlePaymentCart();
       return alert(message);
     }
   }
   
-
-
   const calculateTotal = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount * item.price, 0);
  

@@ -90,6 +90,9 @@ const App = () => {
     });
   };
 
+  const handlePaymentCart = () => {
+    setCartItems([] as any);
+  }
   const handleRemoveFromCart = (id: number) => {
     setCartItems(prev =>
       prev.reduce((ack, item) => {
@@ -102,7 +105,7 @@ const App = () => {
       }, [] as CartItemType[])
     );
   };
-
+  
   if (isCartLoading) return <LinearProgress />;
   if (isHistoryLoading) return <LinearProgress />;
   if (cartError) return <div>Something went wrong ...</div>;
@@ -153,6 +156,7 @@ const App = () => {
           cartItems={cartItems}
           addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
+          handlePaymentCart = {handlePaymentCart}
         />
       </Drawer>
 
